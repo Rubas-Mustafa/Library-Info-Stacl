@@ -92,13 +92,7 @@ int main() {
             }
         }
     }
-            case 0: 
-                printf("Exiting program...\n");
-                return 0;
-            default:
-                printf("Invalid choice.\n");
-        }
-        case 4: {
+            case 4: {
     int l_choice;
     while (1) {
         printf("\n--- LIBRARIAN MENU ---\n");
@@ -122,7 +116,35 @@ int main() {
         }
     }
 }
+            case 5: {
+    int br_choice;
+    while (1) {
+        printf("\n--- BORROW / RETURN MENU ---\n");
+        printf("1. Borrow Book\n");
+        printf("2. Return Book\n");
+        printf("3. Update Borrow Record\n");
+        printf("4. Remove Borrow Record\n");
+        printf("0. Back to Main Menu\n");
+        printf("Enter choice: ");
+        scanf("%d", &br_choice);
 
+        switch (br_choice) {
+            case 1: borrowBook(); break;
+            case 2: returnBook(); break;
+            case 3: updateBorrowRecord(); break;
+            case 4: removeBorrowRecord(); break;
+            case 0: goto main_menu;
+            default: printf("Invalid choice.\n");
+        }
+    }
+}
+            case 0: 
+                printf("Exiting program...\n");
+                return 0;
+            default:
+                printf("Invalid choice.\n");
+        }
+       
         main_menu: ;
     }
 }
