@@ -1,20 +1,31 @@
 #ifndef BOOK_H
 #define BOOK_H
 
-struct Book {
+#define MAX_BOOKS 100
+#define TITLE_SIZE 100
+#define AUTHOR_SIZE 50
+
+typedef struct {
     int id;
-    char title[50];
-    char author[50];
-    int available; // 1 = available, 0 = borrowed
-    int quantity;
-};
+    char title[TITLE_SIZE];
+    char author[AUTHOR_SIZE];
+    int available;
+} Book;
+
+extern Book books[MAX_BOOKS];
+extern int bookCount;
+
+// Function declarations
+void loadBooks();
+void saveBooks();
 
 void addBook();
 void viewBooks();
 void searchBook();
 void updateBook();
 void deleteBook();
-int isBookAvailable(int bookID);
+
+int generateNewBookID();
+int findBookIndexByID(int id);
 
 #endif
-
