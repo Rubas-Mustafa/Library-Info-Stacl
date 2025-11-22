@@ -12,7 +12,7 @@ int main() {
         printf("\n=== MAIN MENU ===\n");
         printf("1. Student Management\n");
         printf("2. University Management\n");
-        printf("3.Book Management\n")
+        printf("3.Book Management\n");
         printf("0. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
