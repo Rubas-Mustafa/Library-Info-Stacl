@@ -3,15 +3,14 @@
 #include "book.h"
 
 #define MAX_BOOKS 20
-struct Book books[MAX_BOOKS];
-int bookCount = 0;
 
-// Load books from books.txt into memory
+struct Book books[MAX_BOOKS]; // memory array for books
+int bookCount = 0;            // number of books in memory
+
+// ---------------- Load books from books.txt into memory ----------------
 void loadBooks() {
     FILE *file = fopen("books.txt", "r");
-    if (file == NULL) {
-        return; // no previous data
-    }
+    if (!file) return; // no previous data
 
     bookCount = 0;
 
@@ -22,15 +21,16 @@ void loadBooks() {
                   &books[bookCount].quantity) == 4) 
     {
         bookCount++;
+        if (bookCount >= MAX_BOOKS) break; // prevent overflow
     }
 
     fclose(file);
 }
 
-// Save books from memory into books.txt
+// ---------------- Save all books in memory to books.txt (write mode) ----------------
 void saveBooks() {
-    FILE *file = fopen("books.txt", "w");
-    if (file == NULL) {
+    FILE *file = fopen("books.txt", "w");  // overwrite file
+    if (!file) {
         printf("Error saving books.\n");
         return;
     }
@@ -46,7 +46,7 @@ void saveBooks() {
     fclose(file);
 }
 
-// Adding a new book
+// ---------------- Add a new book (append mode) ----------------
 void addBook() {
     if (bookCount >= MAX_BOOKS) {
         printf("Book storage is full.\n");
@@ -59,25 +59,34 @@ void addBook() {
     scanf("%d", &b.id);
 
     printf("Enter Book Title: ");
-    getchar(); // consume newline
+    getchar(); // consume leftover newline
     fgets(b.title, 50, stdin);
-    b.title[strcspn(b.title, "\n")] = 0; // remove newline
+    b.title[strcspn(b.title, "\n")] = 0;
 
     printf("Enter Book Author: ");
     fgets(b.author, 50, stdin);
-    b.author[strcspn(b.author, "\n")] = 0; // remove newline
+    b.author[strcspn(b.author, "\n")] = 0;
 
     printf("Enter Quantity: ");
     scanf("%d", &b.quantity);
 
+    // Add to memory
     books[bookCount] = b;
     bookCount++;
 
-    saveBooks();
+    // Save to file in append mode
+    FILE *file = fopen("books.txt", "a"); // append mode
+    if (!file) {
+        printf("Error saving book.\n");
+        return;
+    }
+    fprintf(file, "%d,%s,%s,%d\n", b.id, b.title, b.author, b.quantity);
+    fclose(file);
+
     printf("Book added successfully.\n");
 }
 
-// show all books
+// ---------------- Show all books ----------------
 void viewBooks() {
     if (bookCount == 0) {
         printf("No books available.\n");
@@ -94,7 +103,7 @@ void viewBooks() {
     }
 }
 
-// Searching a book by its ID
+// ---------------- Search a book by ID ----------------
 void searchBook() {
     int id;
     printf("Enter Book ID to search: ");
@@ -115,7 +124,7 @@ void searchBook() {
     printf("Book not found.\n");
 }
 
-// Updating the book using its ID
+// ---------------- Update a book (write mode) ----------------
 void updateBook() {
     int id;
     printf("Enter Book ID to update: ");
@@ -137,7 +146,7 @@ void updateBook() {
             printf("Enter new quantity: ");
             scanf("%d", &books[i].quantity);
 
-            saveBooks();
+            saveBooks();  // overwrite file with updated memory
             printf("Book updated successfully.\n");
             return;
         }
@@ -146,7 +155,7 @@ void updateBook() {
     printf("Book not found.\n");
 }
 
-// Deleting book by using book ID
+// ---------------- Delete a book (write mode) ----------------
 void deleteBook() {
     int id;
     printf("Enter Book ID to delete: ");
@@ -154,13 +163,13 @@ void deleteBook() {
 
     for (int i = 0; i < bookCount; i++) {
         if (books[i].id == id) {
-            // Shifting the book down to fill the gap
+            // Shift books down to remove the deleted book
             for (int j = i; j < bookCount - 1; j++) {
                 books[j] = books[j + 1];
             }
 
             bookCount--;
-            saveBooks();
+            saveBooks();  // overwrite file without deleted book
             printf("Book deleted successfully.\n");
             return;
         }
@@ -168,4 +177,3 @@ void deleteBook() {
 
     printf("Book not found.\n");
 }
-
