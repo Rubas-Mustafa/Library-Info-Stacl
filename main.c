@@ -10,7 +10,7 @@ int main() {
     loadUniversities();
     loadBooks();          // <<< YOU FORGOT THIS
     loadBorrowRecords(); 
-
+loadLibrarians();
     int choice;
 
     while (1) {
