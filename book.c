@@ -2,14 +2,10 @@
 #include <string.h>
 #include "book.h"
 
-#define MAX_BOOKS 100
-
 Book books[MAX_BOOKS];
 int bookCount = 0;
 
-// ---------------------------
-// Load Books from file
-// ---------------------------
+// Load books from file
 void loadBooks() {
     FILE *fp = fopen("books.txt", "r");
     if (!fp) return;
@@ -31,15 +27,10 @@ void loadBooks() {
     fclose(fp);
 }
 
-// ---------------------------
-// Save Books to file
-// ---------------------------
+// Save books to file
 void saveBooks() {
     FILE *fp = fopen("books.txt", "w");
-    if (!fp) {
-        printf("Error saving books.\n");
-        return;
-    }
+    if (!fp) return;
 
     for (int i = 0; i < bookCount; i++) {
         fprintf(fp, "%d, %s, %s, %d\n",
@@ -52,17 +43,13 @@ void saveBooks() {
     fclose(fp);
 }
 
-// ---------------------------
-// Generate New Book ID
-// ---------------------------
+// Generate new unique ID
 int generateNewBookID() {
     if (bookCount == 0) return 1;
     return books[bookCount - 1].id + 1;
 }
 
-// ---------------------------
-// Find Book Index by ID
-// ---------------------------
+// Find book index by ID
 int findBookIndexByID(int id) {
     for (int i = 0; i < bookCount; i++) {
         if (books[i].id == id)
@@ -71,14 +58,8 @@ int findBookIndexByID(int id) {
     return -1;
 }
 
-// ---------------------------
-// Add Book
-// ---------------------------
+// Add book
 void addBook() {
-    printf("\n====================================\n");
-    printf("           ADD BOOK\n");
-    printf("====================================\n");
-
     if (bookCount >= MAX_BOOKS) {
         printf("Book list is full.\n");
         return;
@@ -87,8 +68,8 @@ void addBook() {
     Book b;
     b.id = generateNewBookID();
 
-    getchar(); // clear input buffer
     printf("Enter book title: ");
+    getchar(); // clear input buffer
     fgets(b.title, sizeof(b.title), stdin);
     b.title[strcspn(b.title, "\n")] = 0;
 
@@ -101,49 +82,34 @@ void addBook() {
     books[bookCount++] = b;
     saveBooks();
 
-    printf("Book added successfully.\n");
-    printf("Assigned Book ID: %d\n", b.id);
-    printf("====================================\n");
+    printf("Book added successfully! ID: %d\n", b.id);
 }
 
-// ---------------------------
-// View Books
-// ---------------------------
+// View books
 void viewBooks() {
-    printf("\n============================================================\n");
-    printf("                        BOOK LIST\n");
-    printf("============================================================\n");
+    printf("\n====================================\n");
+    printf("             BOOK LIST\n");
+    printf("====================================\n");
 
     if (bookCount == 0) {
         printf("No books found.\n");
-        printf("============================================================\n");
         return;
     }
 
     printf("ID    %-30s %-30s %-10s\n", "Title", "Author", "Available");
-    printf("------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------\n");
 
     for (int i = 0; i < bookCount; i++) {
-        printf("%-5d %-30s %-30s %-10s\n",
+        printf("%-5d %-30s %-30s %-10d\n",
                books[i].id,
                books[i].title,
                books[i].author,
-               books[i].available ? "Yes" : "No");
+               books[i].available);
     }
-
-    printf("------------------------------------------------------------\n");
-    printf("Total Books: %d\n", bookCount);
-    printf("============================================================\n");
 }
 
-// ---------------------------
-// Update Book
-// ---------------------------
-void updateBook() {
-    printf("\n====================================\n");
-    printf("           UPDATE BOOK\n");
-    printf("====================================\n");
-
+// Search book
+void searchBook() {
     int id;
     printf("Enter Book ID: ");
     scanf("%d", &id);
@@ -154,7 +120,26 @@ void updateBook() {
         return;
     }
 
-    getchar(); // clear input buffer
+    printf("ID: %d\nTitle: %s\nAuthor: %s\nAvailable: %d\n",
+           books[index].id,
+           books[index].title,
+           books[index].author,
+           books[index].available);
+}
+
+// Update book
+void updateBook() {
+    int id;
+    printf("Enter Book ID to update: ");
+    scanf("%d", &id);
+
+    int index = findBookIndexByID(id);
+    if (index == -1) {
+        printf("Book not found.\n");
+        return;
+    }
+
+    getchar(); // clear buffer
     printf("Enter new title: ");
     fgets(books[index].title, sizeof(books[index].title), stdin);
     books[index].title[strcspn(books[index].title, "\n")] = 0;
@@ -167,16 +152,10 @@ void updateBook() {
     printf("Book updated successfully.\n");
 }
 
-// ---------------------------
-// Delete Book
-// ---------------------------
+// Delete book
 void deleteBook() {
-    printf("\n====================================\n");
-    printf("           DELETE BOOK\n");
-    printf("====================================\n");
-
     int id;
-    printf("Enter Book ID: ");
+    printf("Enter Book ID to delete: ");
     scanf("%d", &id);
 
     int index = findBookIndexByID(id);
