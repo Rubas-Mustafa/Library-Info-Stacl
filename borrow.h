@@ -1,18 +1,22 @@
 #ifndef BORROW_H
 #define BORROW_H
 
-struct BorrowRecord {
+#define MAX_BORROW 50
+#define DATE_SIZE 15
+
+typedef struct {
     int borrowID;
     int studentID;
     int bookID;
-    char borrowDate[20];
-    char returnDate[20];
-    int isReturned; // 0 = not returned, 1 = returned
-};
+    char borrowDate[DATE_SIZE];
+    char returnDate[DATE_SIZE];
+    int isReturned;
+} BorrowRecord;
 
-extern struct BorrowRecord borrowRecords[];
+extern BorrowRecord borrowRecords[MAX_BORROW];
 extern int borrowCount;
 
+// Function declarations
 void loadBorrowRecords();
 void saveBorrowRecords();
 
@@ -22,4 +26,3 @@ void updateBorrowRecord();
 void removeBorrowRecord();
 
 #endif
-
