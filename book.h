@@ -6,6 +6,7 @@ struct Book {
     char title[50];
     char author[50];
     int available; // 1 = available, 0 = borrowed
+    int quantity;
 };
 
 void addBook();

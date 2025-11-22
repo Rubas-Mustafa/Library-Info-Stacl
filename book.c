@@ -2,6 +2,7 @@
 #include <string.h>
 #include "book.h"
 
+#define MAX_BOOKS 20
 struct Book books[MAX_BOOKS];
 int bookCount = 0;
 
