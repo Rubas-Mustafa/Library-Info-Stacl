@@ -98,6 +98,31 @@ int main() {
             default:
                 printf("Invalid choice.\n");
         }
+        case 4: {
+    int l_choice;
+    while (1) {
+        printf("\n--- LIBRARIAN MENU ---\n");
+        printf("1. Add Librarian\n");
+        printf("2. View Librarians\n");
+        printf("3. Search Librarian\n");
+        printf("4. Update Librarian\n");
+        printf("5. Delete Librarian\n");
+        printf("0. Back to Main Menu\n");
+        printf("Enter choice: ");
+        scanf("%d", &l_choice);
+
+        switch (l_choice) {
+            case 1: addLibrarian(); break;
+            case 2: viewLibrarians(); break;
+            case 3: searchLibrarian(); break;
+            case 4: updateLibrarian(); break;
+            case 5: deleteLibrarian(); break;
+            case 0: goto main_menu;
+            default: printf("Invalid choice.\n");
+        }
+    }
+}
+
         main_menu: ;
     }
 }
