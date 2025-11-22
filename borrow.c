@@ -1,45 +1,42 @@
 #include <stdio.h>
 #include <string.h>
 #include "borrow.h"
-#include "book.h"
 #include "student.h"
+#include "book.h"
 
-#define MAX_BORROW 50
-
-struct BorrowRecord borrowRecords[MAX_BORROW];
+BorrowRecord borrowRecords[MAX_BORROW];
 int borrowCount = 0;
 
-// Load borrow records from file
+// ---------------------------
+// Load borrow records
+// ---------------------------
 void loadBorrowRecords() {
-    FILE *file = fopen("borrow.txt", "r");
-    if (!file) return;
+    FILE *fp = fopen("borrow.txt", "r");
+    if (!fp) return;
 
     borrowCount = 0;
-
-    while (fscanf(file, "%d %d %d %s %s %d",
+    while (fscanf(fp, "%d %d %d %s %s %d",
                   &borrowRecords[borrowCount].borrowID,
                   &borrowRecords[borrowCount].studentID,
                   &borrowRecords[borrowCount].bookID,
                   borrowRecords[borrowCount].borrowDate,
                   borrowRecords[borrowCount].returnDate,
-                  &borrowRecords[borrowCount].isReturned) == 6)
-    {
+                  &borrowRecords[borrowCount].isReturned) == 6) {
         borrowCount++;
     }
 
-    fclose(file);
+    fclose(fp);
 }
 
-// Save borrow records to file
+// ---------------------------
+// Save borrow records
+// ---------------------------
 void saveBorrowRecords() {
-    FILE *file = fopen("borrow.txt", "w");
-    if (!file) {
-        printf("Error saving borrow records.\n");
-        return;
-    }
+    FILE *fp = fopen("borrow.txt", "w");
+    if (!fp) return;
 
     for (int i = 0; i < borrowCount; i++) {
-        fprintf(file, "%d %d %d %s %s %d\n",
+        fprintf(fp, "%d %d %d %s %s %d\n",
                 borrowRecords[i].borrowID,
                 borrowRecords[i].studentID,
                 borrowRecords[i].bookID,
@@ -48,17 +45,18 @@ void saveBorrowRecords() {
                 borrowRecords[i].isReturned);
     }
 
-    fclose(file);
+    fclose(fp);
 }
 
+// ---------------------------
 // Borrow a book
+// ---------------------------
 void borrowBook() {
-    int bookID, studentID;
+    int studentID, bookID;
 
     printf("Enter Student ID: ");
     scanf("%d", &studentID);
 
-    // Find student index
     int studentIndex = -1;
     for (int i = 0; i < studentCount; i++) {
         if (students[i].id == studentID) {
@@ -72,7 +70,6 @@ void borrowBook() {
         return;
     }
 
-    // Check borrow limit
     if (students[studentIndex].borrowedCount >= 3) {
         printf("Student has reached the borrow limit (3 books).\n");
         return;
@@ -81,7 +78,6 @@ void borrowBook() {
     printf("Enter Book ID to borrow: ");
     scanf("%d", &bookID);
 
-    // Find book index
     int bookIndex = -1;
     for (int i = 0; i < bookCount; i++) {
         if (books[i].id == bookID) {
@@ -100,8 +96,7 @@ void borrowBook() {
         return;
     }
 
-    // Create borrow record
-    struct BorrowRecord b;
+    BorrowRecord b;
     b.borrowID = borrowCount + 1;
     b.studentID = studentID;
     b.bookID = bookID;
@@ -112,14 +107,11 @@ void borrowBook() {
     strcpy(b.returnDate, "-");
     b.isReturned = 0;
 
-    borrowRecords[borrowCount] = b;
-    borrowCount++;
+    borrowRecords[borrowCount++] = b;
 
-    // Update book availability and student borrowed count
     books[bookIndex].available = 0;
     students[studentIndex].borrowedCount++;
 
-    // Save changes
     saveBorrowRecords();
     saveBooks();
     saveStudents();
@@ -127,116 +119,133 @@ void borrowBook() {
     printf("Book borrowed successfully!\n");
 }
 
+// ---------------------------
 // Return a book
+// ---------------------------
 void returnBook() {
     int borrowID;
     printf("Enter Borrow ID: ");
     scanf("%d", &borrowID);
 
+    int index = -1;
     for (int i = 0; i < borrowCount; i++) {
         if (borrowRecords[i].borrowID == borrowID) {
-
-            if (borrowRecords[i].isReturned == 1) {
-                printf("Book is already returned.\n");
-                return;
-            }
-
-            printf("Enter Return Date (dd-mm-yyyy): ");
-            scanf("%s", borrowRecords[i].returnDate);
-
-            borrowRecords[i].isReturned = 1;
-
-            // Find book and student to update
-            int bookIndex = -1, studentIndex = -1;
-
-            for (int j = 0; j < bookCount; j++) {
-                if (books[j].id == borrowRecords[i].bookID) {
-                    bookIndex = j;
-                    break;
-                }
-            }
-
-            for (int j = 0; j < studentCount; j++) {
-                if (students[j].id == borrowRecords[i].studentID) {
-                    studentIndex = j;
-                    break;
-                }
-            }
-
-            if (bookIndex != -1) books[bookIndex].available = 1;
-            if (studentIndex != -1 && students[studentIndex].borrowedCount > 0)
-                students[studentIndex].borrowedCount--;
-
-            // Save all changes
-            saveBorrowRecords();
-            saveBooks();
-            saveStudents();
-
-            printf("Book returned successfully!\n");
-            return;
+            index = i;
+            break;
         }
     }
 
-    printf("Borrow record not found.\n");
+    if (index == -1) {
+        printf("Borrow record not found.\n");
+        return;
+    }
+
+    if (borrowRecords[index].isReturned == 1) {
+        printf("Book is already returned.\n");
+        return;
+    }
+
+    printf("Enter Return Date (dd-mm-yyyy): ");
+    scanf("%s", borrowRecords[index].returnDate);
+
+    borrowRecords[index].isReturned = 1;
+
+    int studentIndex = -1, bookIndex = -1;
+
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].id == borrowRecords[index].studentID) {
+            studentIndex = i;
+            break;
+        }
+    }
+
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].id == borrowRecords[index].bookID) {
+            bookIndex = i;
+            break;
+        }
+    }
+
+    if (studentIndex != -1 && students[studentIndex].borrowedCount > 0)
+        students[studentIndex].borrowedCount--;
+
+    if (bookIndex != -1)
+        books[bookIndex].available = 1;
+
+    saveBorrowRecords();
+    saveBooks();
+    saveStudents();
+
+    printf("Book returned successfully!\n");
 }
 
+// ---------------------------
 // Update borrow record
+// ---------------------------
 void updateBorrowRecord() {
     int borrowID;
     printf("Enter Borrow ID to update: ");
     scanf("%d", &borrowID);
 
+    int index = -1;
     for (int i = 0; i < borrowCount; i++) {
         if (borrowRecords[i].borrowID == borrowID) {
-            printf("Enter new return date: ");
-            scanf("%s", borrowRecords[i].returnDate);
-
-            saveBorrowRecords();
-            printf("Borrow record updated!\n");
-            return;
+            index = i;
+            break;
         }
     }
 
-    printf("Borrow record not found.\n");
+    if (index == -1) {
+        printf("Borrow record not found.\n");
+        return;
+    }
+
+    printf("Enter new Return Date: ");
+    scanf("%s", borrowRecords[index].returnDate);
+
+    saveBorrowRecords();
+    printf("Borrow record updated successfully!\n");
 }
 
+// ---------------------------
 // Remove borrow record
+// ---------------------------
 void removeBorrowRecord() {
     int borrowID;
     printf("Enter Borrow ID to delete: ");
     scanf("%d", &borrowID);
 
+    int index = -1;
     for (int i = 0; i < borrowCount; i++) {
         if (borrowRecords[i].borrowID == borrowID) {
-
-            // Find student to decrement borrow count if not yet returned
-            int studentIndex = -1;
-            for (int j = 0; j < studentCount; j++) {
-                if (students[j].id == borrowRecords[i].studentID) {
-                    studentIndex = j;
-                    break;
-                }
-            }
-
-            if (studentIndex != -1 && borrowRecords[i].isReturned == 0) {
-                if (students[studentIndex].borrowedCount > 0)
-                    students[studentIndex].borrowedCount--;
-            }
-
-            // Shift records to delete
-            for (int j = i; j < borrowCount - 1; j++) {
-                borrowRecords[j] = borrowRecords[j + 1];
-            }
-
-            borrowCount--;
-
-            saveBorrowRecords();
-            saveStudents();
-
-            printf("Borrow record deleted.\n");
-            return;
+            index = i;
+            break;
         }
     }
 
-    printf("Borrow record not found.\n");
+    if (index == -1) {
+        printf("Borrow record not found.\n");
+        return;
+    }
+
+    int studentIndex = -1;
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].id == borrowRecords[index].studentID) {
+            studentIndex = i;
+            break;
+        }
+    }
+
+    if (studentIndex != -1 && borrowRecords[index].isReturned == 0)
+        students[studentIndex].borrowedCount--;
+
+    for (int i = index; i < borrowCount - 1; i++)
+        borrowRecords[i] = borrowRecords[i + 1];
+
+    borrowCount--;
+
+    saveBorrowRecords();
+    saveStudents();
+
+    printf("Borrow record deleted successfully.\n");
 }
