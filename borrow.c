@@ -3,26 +3,29 @@
 #include "borrow.h"
 #include "student.h"
 #include "book.h"
-
+#include "borrow_limit.h"
 BorrowRecord borrowRecords[MAX_BORROW];
 int borrowCount = 0;
 
 // ---------------------------
 // Load borrow records
-// ---------------------------
 void loadBorrowRecords() {
     FILE *fp = fopen("borrow.txt", "r");
     if (!fp) return;
 
     borrowCount = 0;
-    while (fscanf(fp, "%d %d %d %s %s %d",
-                  &borrowRecords[borrowCount].borrowID,
-                  &borrowRecords[borrowCount].studentID,
-                  &borrowRecords[borrowCount].bookID,
-                  borrowRecords[borrowCount].borrowDate,
-                  borrowRecords[borrowCount].returnDate,
-                  &borrowRecords[borrowCount].isReturned) == 6) {
-        borrowCount++;
+    while (!feof(fp)) {
+        BorrowRecord b;
+        int ret = fscanf(fp, "%d, %d, %d, %[^,], %[^,], %d\n",
+                         &b.borrowID,
+                         &b.studentID,
+                         &b.bookID,
+                         b.borrowDate,
+                         b.returnDate,
+                         &b.isReturned);
+        if (ret != 6) break;
+
+        borrowRecords[borrowCount++] = b;
     }
 
     fclose(fp);
@@ -32,11 +35,11 @@ void loadBorrowRecords() {
 // Save borrow records
 // ---------------------------
 void saveBorrowRecords() {
-    FILE *fp = fopen("borrow.txt", "w");
+    FILE *fp = fopen("borrow.txt", "w");  // overwrite with all records
     if (!fp) return;
 
     for (int i = 0; i < borrowCount; i++) {
-        fprintf(fp, "%d %d %d %s %s %d\n",
+        fprintf(fp, "%d, %d, %d, %s, %s, %d\n",
                 borrowRecords[i].borrowID,
                 borrowRecords[i].studentID,
                 borrowRecords[i].bookID,
@@ -177,6 +180,12 @@ void returnBook() {
     saveStudents();
 
     printf("Book returned successfully!\n");
+    int lateDays = calculateLateDays(borrowRecords[index].borrowDate, borrowRecords[index].returnDate);
+float fine = calculateFineAmount(lateDays);
+if (fine > 0) {
+    printf("Book returned late by %d days. Fine: Rs %.2f\n", lateDays, fine);
+}
+
 }
 
 // ---------------------------
@@ -205,6 +214,32 @@ void updateBorrowRecord() {
 
     saveBorrowRecords();
     printf("Borrow record updated successfully!\n");
+}
+void viewBorrowRecords() {
+    printf("\n============================================================\n");
+    printf("                      BORROW RECORDS\n");
+    printf("============================================================\n");
+    if (borrowCount == 0) {
+        printf("No borrow records found.\n");
+        printf("============================================================\n");
+        return;
+    }
+
+    printf("ID   StudentID  BookID  BorrowDate   ReturnDate  Returned\n");
+    printf("------------------------------------------------------------\n");
+
+    for (int i = 0; i < borrowCount; i++) {
+        printf("%-4d %-10d %-7d %-12s %-12s %-8d\n",
+               borrowRecords[i].borrowID,
+               borrowRecords[i].studentID,
+               borrowRecords[i].bookID,
+               borrowRecords[i].borrowDate,
+               borrowRecords[i].returnDate,
+               borrowRecords[i].isReturned);
+    }
+    printf("------------------------------------------------------------\n");
+    printf("Total Borrow Records: %d\n", borrowCount);
+    printf("============================================================\n");
 }
 
 // ---------------------------

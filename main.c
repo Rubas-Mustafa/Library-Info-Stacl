@@ -138,6 +138,7 @@ int main() {
                     printf("2. Return Book\n");
                     printf("3. Update Borrow Record\n");
                     printf("4. Remove Borrow Record\n");
+                    printf("5. View BookRecords\n");
                     printf("0. Back to Main Menu\n");
                     printf("Enter choice: ");
                     scanf("%d", &br_choice);
@@ -147,6 +148,7 @@ int main() {
                         case 2: returnBook(); break;
                         case 3: updateBorrowRecord(); break;
                         case 4: removeBorrowRecord(); break;
+                        case 5: viewBorrowRecords(); break;
                         case 0: break;
                         default: printf("Invalid choice.\n");
                     }

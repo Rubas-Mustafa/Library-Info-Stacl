@@ -24,5 +24,5 @@ void borrowBook();
 void returnBook();
 void updateBorrowRecord();
 void removeBorrowRecord();
-
+void viewBorrowRecords();
 #endif

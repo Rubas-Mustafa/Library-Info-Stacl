@@ -17,31 +17,27 @@ static void clearInputBuffer() {
 // ---------------------------
 // Load Students from file
 // ---------------------------
+// students.txt format:
+// id, name, email, university_id, borrow_count
+
 void loadStudents() {
     FILE *fp = fopen("students.txt", "r");
     if (!fp) return;
 
     studentCount = 0;
-
-    char line[256];
-
-    while (fgets(line, sizeof(line), fp)) {
-
+    while (!feof(fp)) {
         Student s;
+        int ret = fscanf(fp, "%d, %[^,], %[^,], %d, %d\n",
+                         &s.id,
+                         s.name,
+                         s.email,
+                         &s.university_id,
+                         &s.borrow_count);
+        if (ret != 5) break;
 
-        sscanf(line, "%d, %[^0-9] %s %d %d",
-               &s.id,
-               s.name,
-               s.email,
-               &s.university_id,
-               &s.borrow_count);
-
-        // Remove trailing spaces in name
-        int len = strlen(s.name);
-        while (len > 0 && s.name[len - 1] == ' ') {
-            s.name[len - 1] = '\0';
-            len--;
-        }
+        // Trim trailing spaces
+        s.name[strcspn(s.name, "\n")] = 0;
+        s.email[strcspn(s.email, "\n")] = 0;
 
         students[studentCount++] = s;
     }
@@ -53,12 +49,13 @@ void loadStudents() {
 // Save Students to file
 // ---------------------------
 void saveStudents() {
-    FILE *fp = fopen("students.txt", "w");
+    FILE *fp = fopen("students.txt", "w");  // overwrite with all current data
     if (!fp) return;
 
     for (int i = 0; i < studentCount; i++) {
-        fprintf(fp, "%d, %s ", students[i].id, students[i].name);
-        fprintf(fp, "%s %d %d\n",
+        fprintf(fp, "%d, %s, %s, %d, %d\n",
+                students[i].id,
+                students[i].name,
                 students[i].email,
                 students[i].university_id,
                 students[i].borrow_count);
@@ -66,6 +63,7 @@ void saveStudents() {
 
     fclose(fp);
 }
+
 
 // Test Github
 // ---------------------------
@@ -138,18 +136,18 @@ void viewStudents() {
         return;
     }
 
-    printf("ID    %-20s %-25s %-8s %-8s\n",
-            "Name", "Email", "UnivID", "Borrow");
-    printf("------------------------------------------------------------\n");
+   printf("ID    %-20s %-25s %-8s %-8s\n",
+       "Name", "Email", "UnivID", "Borrow");
+printf("------------------------------------------------------------\n");
 
-    for (int i = 0; i < studentCount; i++) {
-        printf("%-5d %-40s %-40s %-20d %-20d\n",
-               students[i].id,
-               students[i].name,
-               students[i].email,
-               students[i].university_id,
-               students[i].borrow_count);
-    }
+for (int i = 0; i < studentCount; i++) {
+    printf("%-5d %-20s %-25s %-8d %-8d\n",
+           students[i].id,
+           students[i].name,
+           students[i].email,
+           students[i].university_id,
+           students[i].borrow_count);
+}
 
     printf("------------------------------------------------------------\n");
     printf("Total Students: %d\n", studentCount);

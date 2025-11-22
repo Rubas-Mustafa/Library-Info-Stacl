@@ -11,25 +11,28 @@ void loadBooks() {
     if (!fp) return;
 
     bookCount = 0;
-    char line[256];
-
-    while (fgets(line, sizeof(line), fp)) {
+    while (!feof(fp)) {
         Book b;
-        sscanf(line, "%d, %[^,], %[^,], %d",
-               &b.id,
-               b.title,
-               b.author,
-               &b.available);
+        int ret = fscanf(fp, "%d, %[^,], %[^,], %d\n",
+                         &b.id,
+                         b.title,
+                         b.author,
+                         &b.available);
+        if (ret != 4) break;
+
+        // Trim trailing spaces
+        b.title[strcspn(b.title, "\n")] = 0;
+        b.author[strcspn(b.author, "\n")] = 0;
 
         books[bookCount++] = b;
     }
-
     fclose(fp);
 }
 
+
 // Save books to file
 void saveBooks() {
-    FILE *fp = fopen("books.txt", "w");
+    FILE *fp = fopen("books.txt", "w");  // overwrite file with current data
     if (!fp) return;
 
     for (int i = 0; i < bookCount; i++) {
@@ -42,6 +45,7 @@ void saveBooks() {
 
     fclose(fp);
 }
+
 
 // Generate new unique ID
 int generateNewBookID() {
