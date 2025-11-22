@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "student.h"
 #include "university.h"
-
+#include "book.h"
 int main() {
     loadUniversities();
     loadStudents();
@@ -12,6 +12,7 @@ int main() {
         printf("\n=== MAIN MENU ===\n");
         printf("1. Student Management\n");
         printf("2. University Management\n");
+        printf("3.Book Management\n")
         printf("0. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
@@ -67,6 +68,30 @@ int main() {
                     }
                 }
             }
+            case 3: { 
+        int b_choice;
+        while (1) {
+            printf("\n--- BOOK MENU ---\n");
+            printf("1. Add Book\n");
+            printf("2. View Books\n");
+            printf("3. Search Book\n");
+            printf("4. Update Book\n");
+            printf("5. Delete Book\n");
+            printf("0. Back to Main Menu\n");
+            printf("Enter choice: ");
+            scanf("%d", &b_choice);
+
+            switch (b_choice) {
+                case 1: addBook(); break;
+                case 2: viewBooks(); break;
+                case 3: searchBook(); break;
+                case 4: updateBook(); break;
+                case 5: deleteBook(); break;
+                case 0: goto main_menu;
+                default: printf("Invalid choice.\n");
+            }
+        }
+    }
             case 0: 
                 printf("Exiting program...\n");
                 return 0;
