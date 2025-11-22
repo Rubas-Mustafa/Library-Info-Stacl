@@ -19,17 +19,33 @@ static void clearInputBuffer() {
 // ---------------------------
 void loadStudents() {
     FILE *fp = fopen("students.txt", "r");
-    if (fp == NULL) return;
+    if (!fp) return;
 
     studentCount = 0;
-    while (fscanf(fp, "%d %49[^\n] %49s %d %d",
-                  &students[studentCount].id,
-                  students[studentCount].name,
-                  students[studentCount].email,
-                  &students[studentCount].university_id,
-                  &students[studentCount].borrow_count) == 5) {
-        studentCount++;
+
+    char line[256];
+
+    while (fgets(line, sizeof(line), fp)) {
+
+        Student s;
+
+        sscanf(line, "%d, %[^0-9] %s %d %d",
+               &s.id,
+               s.name,
+               s.email,
+               &s.university_id,
+               &s.borrow_count);
+
+        // Remove trailing spaces in name
+        int len = strlen(s.name);
+        while (len > 0 && s.name[len - 1] == ' ') {
+            s.name[len - 1] = '\0';
+            len--;
+        }
+
+        students[studentCount++] = s;
     }
+
     fclose(fp);
 }
 
@@ -38,18 +54,19 @@ void loadStudents() {
 // ---------------------------
 void saveStudents() {
     FILE *fp = fopen("students.txt", "w");
-    if (fp == NULL) return;
+    if (!fp) return;
 
     for (int i = 0; i < studentCount; i++) {
-        fprintf(fp, "%d %s %s %d %d\n",
-                students[i].id,
-                students[i].name,
+        fprintf(fp, "%d, %s ", students[i].id, students[i].name);
+        fprintf(fp, "%s %d %d\n",
                 students[i].email,
                 students[i].university_id,
                 students[i].borrow_count);
     }
+
     fclose(fp);
 }
+
 // Test Github
 // ---------------------------
 // Generate New Unique ID
@@ -126,7 +143,7 @@ void viewStudents() {
     printf("------------------------------------------------------------\n");
 
     for (int i = 0; i < studentCount; i++) {
-        printf("%-5d %-20s %-25s %-8d %-8d\n",
+        printf("%-5d %-40s %-40s %-20d %-20d\n",
                students[i].id,
                students[i].name,
                students[i].email,

@@ -19,15 +19,21 @@ static void clearInputBuffer() {
 // ---------------------------
 void loadUniversities() {
     FILE *fp = fopen("universities.txt", "r");
-    if (fp == NULL) return;
+    if (!fp) return;
 
     universityCount = 0;
-    while (fscanf(fp, "%d %49[^\n] %f",
-                  &universities[universityCount].id,
-                  universities[universityCount].name,
+
+    while (fscanf(fp, "%d, %[^0-9] %f", 
+                  &universities[universityCount].id, 
+                  universities[universityCount].name, 
                   &universities[universityCount].discount) == 3) {
+
+        // Trim trailing spaces
+        universities[universityCount].name[strcspn(universities[universityCount].name, " ")] = '\0';
+
         universityCount++;
     }
+
     fclose(fp);
 }
 
@@ -36,16 +42,19 @@ void loadUniversities() {
 // ---------------------------
 void saveUniversities() {
     FILE *fp = fopen("universities.txt", "w");
-    if (fp == NULL) return;
+    if (!fp) return;
 
     for (int i = 0; i < universityCount; i++) {
-        fprintf(fp, "%d %s %.2f\n",
+        fprintf(fp, "%d, %s ", 
                 universities[i].id,
-                universities[i].name,
-                universities[i].discount);
+                universities[i].name);
+
+        fprintf(fp, "%.2f\n", universities[i].discount);
     }
+
     fclose(fp);
 }
+
 
 // ---------------------------
 // Generate New University ID
