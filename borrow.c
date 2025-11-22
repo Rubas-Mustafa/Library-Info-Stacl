@@ -70,7 +70,7 @@ void borrowBook() {
         return;
     }
 
-    if (students[studentIndex].borrowedCount >= 3) {
+    if (students[studentIndex].borrow_count >= 3) {
         printf("Student has reached the borrow limit (3 books).\n");
         return;
     }
@@ -110,7 +110,7 @@ void borrowBook() {
     borrowRecords[borrowCount++] = b;
 
     books[bookIndex].available = 0;
-    students[studentIndex].borrowedCount++;
+    students[studentIndex].borrow_count++;
 
     saveBorrowRecords();
     saveBooks();
@@ -166,8 +166,8 @@ void returnBook() {
         }
     }
 
-    if (studentIndex != -1 && students[studentIndex].borrowedCount > 0)
-        students[studentIndex].borrowedCount--;
+    if (studentIndex != -1 && students[studentIndex].borrow_count > 0)
+        students[studentIndex].borrow_count--;
 
     if (bookIndex != -1)
         books[bookIndex].available = 1;
@@ -237,7 +237,7 @@ void removeBorrowRecord() {
     }
 
     if (studentIndex != -1 && borrowRecords[index].isReturned == 0)
-        students[studentIndex].borrowedCount--;
+        students[studentIndex].borrow_count--;
 
     for (int i = index; i < borrowCount - 1; i++)
         borrowRecords[i] = borrowRecords[i + 1];
