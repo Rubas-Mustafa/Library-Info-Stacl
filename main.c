@@ -2,6 +2,7 @@
 #include "student.h"
 #include "university.h"
 #include "book.h"
+#include "borrow.h"
 int main() {
     loadUniversities();
     loadStudents();
