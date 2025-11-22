@@ -6,8 +6,10 @@
 #include "librarian.h"
 
 int main() {
-    loadUniversities();
     loadStudents();
+    loadUniversities();
+    loadBooks();          // <<< YOU FORGOT THIS
+    loadBorrowRecords(); 
 
     int choice;
 

@@ -2,3 +2,5 @@
 2, XYZ, RUbas, 0
 3, XYZ, Me, 1
 4, maths, re, 1
+1, xyz, abc, 1
+2, maths, maths, 1

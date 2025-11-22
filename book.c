@@ -73,7 +73,7 @@ void addBook() {
     b.id = generateNewBookID();
 
     printf("Enter book title: ");
-    getchar(); // clear input buffer
+    getchar();
     fgets(b.title, sizeof(b.title), stdin);
     b.title[strcspn(b.title, "\n")] = 0;
 
@@ -84,10 +84,18 @@ void addBook() {
     b.available = 1;
 
     books[bookCount++] = b;
-    saveBooks();
+
+    // Append only the new book
+    FILE *fp = fopen("books.txt", "a");
+    if (fp) {
+        fprintf(fp, "%d, %s, %s, %d\n",
+                b.id, b.title, b.author, b.available);
+        fclose(fp);
+    }
 
     printf("Book added successfully! ID: %d\n", b.id);
 }
+
 
 // View books
 void viewBooks() {

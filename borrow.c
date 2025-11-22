@@ -35,7 +35,7 @@ void loadBorrowRecords() {
 // Save borrow records
 // ---------------------------
 void saveBorrowRecords() {
-    FILE *fp = fopen("borrow.txt", "w");  // overwrite with all records
+FILE *fp = fopen("borrow.txt", "a");
     if (!fp) return;
 
     for (int i = 0; i < borrowCount; i++) {
