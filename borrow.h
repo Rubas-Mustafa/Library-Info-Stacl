@@ -16,7 +16,6 @@ typedef struct {
 extern BorrowRecord borrowRecords[MAX_BORROW];
 extern int borrowCount;
 
-// Function declarations
 void loadBorrowRecords();
 void saveBorrowRecords();
 

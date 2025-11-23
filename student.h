@@ -1,4 +1,3 @@
-// student.h
 #ifndef STUDENT_H
 #define STUDENT_H
 
@@ -15,7 +14,6 @@ typedef struct {
 extern Student students[MAX_STUDENTS];
 extern int studentCount;
 
-// Function declarations
 void loadStudents();
 void saveStudents();
 

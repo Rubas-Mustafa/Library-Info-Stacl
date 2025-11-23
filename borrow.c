@@ -7,7 +7,7 @@
 BorrowRecord borrowRecords[MAX_BORROW];
 int borrowCount = 0;
 
-// ---------------------------
+
 // Load borrow records
 void loadBorrowRecords() {
     FILE *fp = fopen("borrow.txt", "r");
@@ -31,9 +31,8 @@ void loadBorrowRecords() {
     fclose(fp);
 }
 
-// ---------------------------
-// Save borrow records
-// ---------------------------
+
+// Saveee borrow records
 void saveBorrowRecords() {
 FILE *fp = fopen("borrow.txt", "a");
     if (!fp) return;
@@ -51,9 +50,8 @@ FILE *fp = fopen("borrow.txt", "a");
     fclose(fp);
 }
 
-// ---------------------------
+
 // Borrow a book
-// ---------------------------
 void borrowBook() {
     int studentID, bookID;
 
@@ -122,9 +120,8 @@ void borrowBook() {
     printf("Book borrowed successfully!\n");
 }
 
-// ---------------------------
+
 // Return a book
-// ---------------------------
 void returnBook() {
     int borrowID;
     printf("Enter Borrow ID: ");
@@ -188,9 +185,8 @@ if (fine > 0) {
 
 }
 
-// ---------------------------
-// Update borrow record
-// ---------------------------
+
+// Update borrow recor
 void updateBorrowRecord() {
     int borrowID;
     printf("Enter Borrow ID to update: ");
@@ -242,9 +238,8 @@ void viewBorrowRecords() {
     printf("============================================================\n");
 }
 
-// ---------------------------
+
 // Remove borrow record
-// ---------------------------
 void removeBorrowRecord() {
     int borrowID;
     printf("Enter Borrow ID to delete: ");

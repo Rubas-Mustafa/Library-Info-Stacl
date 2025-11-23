@@ -6,17 +6,15 @@
 University universities[MAX_UNIVERSITIES];
 int universityCount = 0;
 
-// ---------------------------
+
 // Clear input buffer
-// ---------------------------
 static void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-// ---------------------------
+
 // Load Universities from file
-// ---------------------------
 void loadUniversities() {
     FILE *fp = fopen("universities.txt", "r");
     if (!fp) return;
@@ -37,9 +35,8 @@ void loadUniversities() {
     fclose(fp);
 }
 
-// ---------------------------
+
 // Save Universities to file
-// ---------------------------
 void saveUniversities() {
     FILE *fp = fopen("universities.txt", "w");
     if (!fp) return;
@@ -56,17 +53,17 @@ void saveUniversities() {
 }
 
 
-// ---------------------------
+
 // Generate New University ID
-// ---------------------------
+
 int generateNewUniversityID() {
     if (universityCount == 0) return 1;
     return universities[universityCount - 1].id + 1;
 }
 
-// ---------------------------
+
 // Find University index by ID
-// ---------------------------
+
 int findUniversityIndexByID(int id) {
     for (int i = 0; i < universityCount; i++) {
         if (universities[i].id == id)
@@ -75,9 +72,8 @@ int findUniversityIndexByID(int id) {
     return -1;
 }
 
-// ---------------------------
+
 // Add University
-// ---------------------------
 void addUniversity() {
     printf("\n====================================\n");
     printf("           ADD UNIVERSITY\n");
@@ -107,9 +103,8 @@ void addUniversity() {
     printf("====================================\n");
 }
 
-// ---------------------------
+
 // View Universities
-// ---------------------------
 void viewUniversities() {
     printf("\n============================================================\n");
     printf("                     UNIVERSITY LIST\n");
@@ -136,9 +131,8 @@ void viewUniversities() {
     printf("============================================================\n");
 }
 
-// ---------------------------
+
 // Search University
-// ---------------------------
 void searchUniversity() {
     printf("\n------------------------------------\n");
     printf("          SEARCH UNIVERSITY\n");
@@ -163,9 +157,9 @@ void searchUniversity() {
     printf("------------------------------------\n");
 }
 
-// ---------------------------
+
 // Update University
-// ---------------------------
+
 void updateUniversity() {
     printf("\n------------------------------------\n");
     printf("         UPDATE UNIVERSITY\n");
@@ -195,9 +189,9 @@ void updateUniversity() {
     printf("------------------------------------\n");
 }
 
-// ---------------------------
+
 // Delete University
-// ---------------------------
+
 void deleteUniversity() {
     printf("\n------------------------------------\n");
     printf("         DELETE UNIVERSITY\n");
@@ -224,18 +218,18 @@ void deleteUniversity() {
     printf("------------------------------------\n");
 }
 
-// ---------------------------
+
 // Get University Discount
-// ---------------------------
+
 float getUniversityDiscount(int university_id) {
     int index = findUniversityIndexByID(university_id);
     if (index == -1) return 0.0;
     return universities[index].discount;
 }
 
-// ---------------------------
+
 // Update Discount Policy (for admin)
-// ---------------------------
+
 void updateDiscountPolicy() {
     printf("\n------------------------------------\n");
     printf("       UPDATE DISCOUNT POLICY\n");

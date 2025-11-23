@@ -20,7 +20,6 @@ void loadBooks() {
                          &b.available);
         if (ret != 4) break;
 
-        // Trim trailing spaces
         b.title[strcspn(b.title, "\n")] = 0;
         b.author[strcspn(b.author, "\n")] = 0;
 
@@ -32,7 +31,7 @@ void loadBooks() {
 
 // Save books to file
 void saveBooks() {
-    FILE *fp = fopen("books.txt", "w");  // overwrite file with current data
+    FILE *fp = fopen("books.txt", "w");
     if (!fp) return;
 
     for (int i = 0; i < bookCount; i++) {
@@ -85,7 +84,6 @@ void addBook() {
 
     books[bookCount++] = b;
 
-    // Append only the new book
     FILE *fp = fopen("books.txt", "a");
     if (fp) {
         fprintf(fp, "%d, %s, %s, %d\n",
@@ -151,7 +149,7 @@ void updateBook() {
         return;
     }
 
-    getchar(); // clear buffer
+    getchar();
     printf("Enter new title: ");
     fgets(books[index].title, sizeof(books[index].title), stdin);
     books[index].title[strcspn(books[index].title, "\n")] = 0;

@@ -15,7 +15,6 @@ typedef struct {
 extern Book books[MAX_BOOKS];
 extern int bookCount;
 
-// Function declarations
 void loadBooks();
 void saveBooks();
 
