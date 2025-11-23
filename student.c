@@ -6,20 +6,13 @@
 Student students[MAX_STUDENTS];
 int studentCount = 0;
 
-// ---------------------------
 // Utility: Clear Input Buffer
-// ---------------------------
 static void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-// ---------------------------
 // Load Students from file
-// ---------------------------
-// students.txt format:
-// id, name, email, university_id, borrow_count
-
 void loadStudents() {
     FILE *fp = fopen("students.txt", "r");
     if (!fp) return;
@@ -45,9 +38,7 @@ void loadStudents() {
     fclose(fp);
 }
 
-// ---------------------------
 // Save Students to file
-// ---------------------------
 void saveStudents() {
     FILE *fp = fopen("students.txt", "w");  // overwrite with all current data
     if (!fp) return;
@@ -64,19 +55,13 @@ void saveStudents() {
     fclose(fp);
 }
 
-
-// Test Github
-// ---------------------------
 // Generate New Unique ID
-// ---------------------------
 int generateNewStudentID() {
     if (studentCount == 0) return 1;
     return students[studentCount - 1].id + 1;
 }
 
-// ---------------------------
 // Find student index by ID
-// ---------------------------
 int findStudentIndexByID(int id) {
     for (int i = 0; i < studentCount; i++) {
         if (students[i].id == id)
@@ -85,9 +70,7 @@ int findStudentIndexByID(int id) {
     return -1;
 }
 
-// ---------------------------
 // Add Student
-// ---------------------------
 void addStudent() {
     printf("\n====================================\n");
     printf("           ADD STUDENT\n");
@@ -122,9 +105,7 @@ void addStudent() {
     printf("====================================\n");
 }
 
-// ---------------------------
 // View Students
-// ---------------------------
 void viewStudents() {
     printf("\n============================================================\n");
     printf("                        STUDENT LIST\n");
@@ -154,9 +135,7 @@ for (int i = 0; i < studentCount; i++) {
     printf("============================================================\n");
 }
 
-// ---------------------------
 // Search Student
-// ---------------------------
 void searchStudent() {
     printf("\n------------------------------------\n");
     printf("           SEARCH STUDENT\n");
@@ -183,9 +162,8 @@ void searchStudent() {
     printf("------------------------------------\n");
 }
 
-// ---------------------------
+
 // Update Student
-// ---------------------------
 void updateStudent() {
     printf("\n------------------------------------\n");
     printf("           UPDATE STUDENT\n");
@@ -219,9 +197,7 @@ void updateStudent() {
     printf("------------------------------------\n");
 }
 
-// ---------------------------
 // Delete Student
-// ---------------------------
 void deleteStudent() {
     printf("\n------------------------------------\n");
     printf("           DELETE STUDENT\n");
