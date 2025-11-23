@@ -77,7 +77,7 @@ void addUniversity() {
     printf("====================================\n");
 
     if (universityCount >= MAX_UNIVERSITIES) {
-        printf("❌ University list is full.\n");
+        printf(" University list is full.\n");
         return;
     }
 
@@ -95,8 +95,8 @@ void addUniversity() {
     universities[universityCount++] = u;
     saveUniversities();
 
-    printf("\n✔ University added successfully!\n");
-    printf("✔ Assigned University ID : %d\n", u.id);
+    printf("\n University added successfully!\n");
+    printf(" Assigned University ID : %d\n", u.id);
     printf("====================================\n");
 }
 
@@ -137,12 +137,12 @@ void searchUniversity() {
 
     int index = findUniversityIndexByID(id);
     if (index == -1) {
-        printf("❌ No university found with ID %d\n", id);
+        printf(" No university found with ID %d\n", id);
         printf("------------------------------------\n");
         return;
     }
 
-    printf("\n✔ University Found\n");
+    printf("\n University Found\n");
     printf("------------------------------------\n");
     printf("ID       : %d\n", universities[index].id);
     printf("Name     : %s\n", universities[index].name);
@@ -163,7 +163,7 @@ void updateUniversity() {
 
     int index = findUniversityIndexByID(id);
     if (index == -1) {
-        printf("❌ University not found.\n");
+        printf(" University not found.\n");
         return;
     }
 
@@ -177,7 +177,7 @@ void updateUniversity() {
 
     saveUniversities();
 
-    printf("\n✔ University updated successfully!\n");
+    printf("\n University updated successfully!\n");
     printf("------------------------------------\n");
 }
 
@@ -194,7 +194,7 @@ void deleteUniversity() {
 
     int index = findUniversityIndexByID(id);
     if (index == -1) {
-        printf("❌ University not found.\n");
+        printf(" University not found.\n");
         printf("------------------------------------\n");
         return;
     }
@@ -205,7 +205,7 @@ void deleteUniversity() {
     universityCount--;
     saveUniversities();
 
-    printf("\n✔ University deleted successfully!\n");
+    printf("\n University deleted successfully!\n");
     printf("------------------------------------\n");
 }
 
@@ -231,7 +231,7 @@ void updateDiscountPolicy() {
 
     int index = findUniversityIndexByID(id);
     if (index == -1) {
-        printf("❌ University not found.\n");
+        printf(" University not found.\n");
         return;
     }
 
@@ -241,6 +241,6 @@ void updateDiscountPolicy() {
 
     saveUniversities();
 
-    printf("\n✔ Discount updated successfully!\n");
+    printf("\n Discount updated successfully!\n");
     printf("------------------------------------\n");
 }

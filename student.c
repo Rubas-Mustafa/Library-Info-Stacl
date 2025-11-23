@@ -74,7 +74,7 @@ void addStudent() {
     printf("====================================\n");
 
     if (studentCount >= MAX_STUDENTS) {
-        printf("❌ Student list is full.\n");
+        printf(" Student list is full.\n");
         return;
     }
 
@@ -97,8 +97,8 @@ void addStudent() {
     students[studentCount++] = s;
     saveStudents();
 
-    printf("\n✔ Student added successfully!\n");
-    printf("✔ Assigned Student ID : %d\n", s.id);
+    printf("\n Student added successfully!\n");
+    printf(" Assigned Student ID : %d\n", s.id);
     printf("====================================\n");
 }
 
@@ -140,12 +140,12 @@ void searchStudent() {
 
     int index = findStudentIndexByID(id);
     if (index == -1) {
-        printf("❌ No student found with ID %d\n", id);
+        printf(" No student found with ID %d\n", id);
         printf("------------------------------------\n");
         return;
     }
 
-    printf("\n✔ Student Found\n");
+    printf("\n Student Found\n");
     printf("------------------------------------\n");
     printf("ID              : %d\n", students[index].id);
     printf("Name            : %s\n", students[index].name);
@@ -168,7 +168,7 @@ void updateStudent() {
 
     int index = findStudentIndexByID(id);
     if (index == -1) {
-        printf("❌ Student not found.\n");
+        printf(" Student not found.\n");
         return;
     }
 
@@ -186,7 +186,7 @@ void updateStudent() {
 
     saveStudents();
 
-    printf("\n✔ Student updated successfully!\n");
+    printf("\nStudent updated successfully!\n");
     printf("------------------------------------\n");
 }
 
@@ -202,7 +202,7 @@ void deleteStudent() {
 
     int index = findStudentIndexByID(id);
     if (index == -1) {
-        printf("❌ Student not found.\n");
+        printf("Student not found.\n");
         printf("------------------------------------\n");
         return;
     }
@@ -213,6 +213,6 @@ void deleteStudent() {
     studentCount--;
     saveStudents();
 
-    printf("\n✔ Student deleted successfully!\n");
+    printf("\nStudent deleted successfully!\n");
     printf("------------------------------------\n");
 }
