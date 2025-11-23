@@ -1,4 +1,3 @@
-// student.c
 #include <stdio.h>
 #include <string.h>
 #include "student.h"
@@ -27,8 +26,6 @@ void loadStudents() {
                          &s.university_id,
                          &s.borrow_count);
         if (ret != 5) break;
-
-        // Trim trailing spaces
         s.name[strcspn(s.name, "\n")] = 0;
         s.email[strcspn(s.email, "\n")] = 0;
 
@@ -40,7 +37,7 @@ void loadStudents() {
 
 // Save Students to file
 void saveStudents() {
-    FILE *fp = fopen("students.txt", "w");  // overwrite with all current data
+    FILE *fp = fopen("students.txt", "w"); 
     if (!fp) return;
 
     for (int i = 0; i < studentCount; i++) {
@@ -107,13 +104,11 @@ void addStudent() {
 
 // View Students
 void viewStudents() {
-    printf("\n============================================================\n");
     printf("                        STUDENT LIST\n");
     printf("============================================================\n");
 
     if (studentCount == 0) {
         printf("No students found.\n");
-        printf("============================================================\n");
         return;
     }
 
@@ -130,7 +125,6 @@ for (int i = 0; i < studentCount; i++) {
            students[i].borrow_count);
 }
 
-    printf("------------------------------------------------------------\n");
     printf("Total Students: %d\n", studentCount);
     printf("============================================================\n");
 }
@@ -139,7 +133,6 @@ for (int i = 0; i < studentCount; i++) {
 void searchStudent() {
     printf("\n------------------------------------\n");
     printf("           SEARCH STUDENT\n");
-    printf("------------------------------------\n");
 
     int id;
     printf("Enter Student ID: ");

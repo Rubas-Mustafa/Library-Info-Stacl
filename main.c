@@ -8,13 +8,12 @@
 int main() {
     loadStudents();
     loadUniversities();
-    loadBooks();          // <<< YOU FORGOT THIS
+    loadBooks();  
     loadBorrowRecords(); 
 loadLibrarians();
     int choice;
 
     while (1) {
-        // === MAIN MENU ===
         printf("\n=== MAIN MENU ===\n");
         printf("1. Student Management\n");
         printf("2. University Management\n");

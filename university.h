@@ -7,10 +7,9 @@
 typedef struct {
     int id;
     char name[50];
-    float discount; // in percentage, e.g., 10 for 10%
+    float discount;
 } University;
 
-// Function prototypes
 void loadUniversities();
 void saveUniversities();
 

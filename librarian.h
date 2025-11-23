@@ -8,10 +8,7 @@ struct Librarian {
     char name[50];
     char email[50];
     char phone[15];
-};
-
-// Function prototypes
-void loadLibrarians();
+};void loadLibrarians();
 void saveLibrarians();
 
 void addLibrarian();

@@ -5,7 +5,7 @@
 struct Librarian librarians[MAX_LIBRARIANS];
 int librarianCount = 0;
 
-// ---------------- Load librarians from file ----------------
+//  Load librarians from file 
 void loadLibrarians() {
     FILE *file = fopen("librarians.txt", "r");
     if (!file) return;
@@ -23,7 +23,7 @@ void loadLibrarians() {
     fclose(file);
 }
 
-// ---------------- Save all librarians to file ----------------
+//  Save all librarians to file 
 void saveLibrarians() {
     FILE *file = fopen("librarians.txt", "w");
     if (!file) {
@@ -40,7 +40,7 @@ void saveLibrarians() {
     fclose(file);
 }
 
-// ---------------- Add a new librarian ----------------
+//  Add a new librarian 
 void addLibrarian() {
     if (librarianCount >= MAX_LIBRARIANS) {
         printf("Librarian storage full.\n");
@@ -79,7 +79,7 @@ void addLibrarian() {
     printf("Librarian added successfully.\n");
 }
 
-// ---------------- View all librarians ----------------
+//  View all librarians 
 void viewLibrarians() {
     if (librarianCount == 0) {
         printf("No librarians available.\n");
@@ -96,7 +96,7 @@ void viewLibrarians() {
     }
 }
 
-// ---------------- Search librarian by ID ----------------
+//  Search librarian by ID 
 void searchLibrarian() {
     int id;
     printf("Enter Librarian ID to search: ");
@@ -116,7 +116,7 @@ void searchLibrarian() {
     printf("Librarian not found.\n");
 }
 
-// ---------------- Update librarian by ID ----------------
+//  Update librarian by ID 
 void updateLibrarian() {
     int id;
     printf("Enter Librarian ID to update: ");
@@ -139,7 +139,7 @@ void updateLibrarian() {
             fgets(librarians[i].phone, 15, stdin);
             librarians[i].phone[strcspn(librarians[i].phone, "\n")] = 0;
 
-            saveLibrarians(); // overwrite file
+            saveLibrarians();
             printf("Librarian updated successfully.\n");
             return;
         }
@@ -147,7 +147,7 @@ void updateLibrarian() {
     printf("Librarian not found.\n");
 }
 
-// ---------------- Delete librarian by ID ----------------
+//  Delete librarian by ID 
 void deleteLibrarian() {
     int id;
     printf("Enter Librarian ID to delete: ");
@@ -159,7 +159,7 @@ void deleteLibrarian() {
                 librarians[j] = librarians[j + 1];
             }
             librarianCount--;
-            saveLibrarians(); // overwrite file
+            saveLibrarians();
             printf("Librarian deleted successfully.\n");
             return;
         }

@@ -25,8 +25,6 @@ void loadUniversities() {
                   &universities[universityCount].id, 
                   universities[universityCount].name, 
                   &universities[universityCount].discount) == 3) {
-
-        // Trim trailing spaces
         universities[universityCount].name[strcspn(universities[universityCount].name, " ")] = '\0';
 
         universityCount++;
@@ -62,8 +60,7 @@ int generateNewUniversityID() {
 }
 
 
-// Find University index by ID
-
+// Find University index by I
 int findUniversityIndexByID(int id) {
     for (int i = 0; i < universityCount; i++) {
         if (universities[i].id == id)
@@ -106,9 +103,8 @@ void addUniversity() {
 
 // View Universities
 void viewUniversities() {
-    printf("\n============================================================\n");
     printf("                     UNIVERSITY LIST\n");
-    printf("============================================================\n");
+    printf("\n============================================================\n");
 
     if (universityCount == 0) {
         printf("No universities found.\n");
@@ -125,8 +121,6 @@ void viewUniversities() {
                universities[i].name,
                universities[i].discount);
     }
-
-    printf("------------------------------------------------------------\n");
     printf("Total Universities: %d\n", universityCount);
     printf("============================================================\n");
 }
@@ -136,7 +130,6 @@ void viewUniversities() {
 void searchUniversity() {
     printf("\n------------------------------------\n");
     printf("          SEARCH UNIVERSITY\n");
-    printf("------------------------------------\n");
 
     int id;
     printf("Enter University ID: ");
@@ -163,7 +156,6 @@ void searchUniversity() {
 void updateUniversity() {
     printf("\n------------------------------------\n");
     printf("         UPDATE UNIVERSITY\n");
-    printf("------------------------------------\n");
 
     int id;
     printf("Enter University ID: ");
@@ -195,7 +187,6 @@ void updateUniversity() {
 void deleteUniversity() {
     printf("\n------------------------------------\n");
     printf("         DELETE UNIVERSITY\n");
-    printf("------------------------------------\n");
 
     int id;
     printf("Enter University ID: ");
@@ -233,7 +224,6 @@ float getUniversityDiscount(int university_id) {
 void updateDiscountPolicy() {
     printf("\n------------------------------------\n");
     printf("       UPDATE DISCOUNT POLICY\n");
-    printf("------------------------------------\n");
 
     int id;
     printf("Enter University ID: ");
