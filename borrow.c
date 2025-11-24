@@ -54,7 +54,7 @@ FILE *fp = fopen("borrow.txt", "a");
 // Borrow a book
 void borrowBook() {
     int studentID, bookID;
-
+    viewBooks();
     printf("Enter Student ID: ");
     scanf("%d", &studentID);
 
