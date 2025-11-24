@@ -14,6 +14,8 @@ int main() {
     int choice;
 
     while (1) {
+                            printf("----------------------------------\n");
+
         printf("\n=== MAIN MENU ===\n");
         printf("1. Student Management\n");
         printf("2. University Management\n");
@@ -28,6 +30,7 @@ int main() {
             case 1: {
                 int s_choice;
                 do {
+                    printf("----------------------------------\n");
                     printf("\n--- STUDENT MENU ---\n");
                     printf("1. Add Student\n");
                     printf("2. View Students\n");
@@ -54,6 +57,8 @@ int main() {
             case 2: {
                 int u_choice;
                 do {
+                    printf("----------------------------------\n");
+
                     printf("\n--- UNIVERSITY MENU ---\n");
                     printf("1. Add University\n");
                     printf("2. View Universities\n");
@@ -82,6 +87,8 @@ int main() {
             case 3: {
                 int b_choice;
                 do {
+                    printf("----------------------------------\n");
+
                     printf("\n--- BOOK MENU ---\n");
                     printf("1. Add Book\n");
                     printf("2. View Books\n");
@@ -108,6 +115,8 @@ int main() {
             case 4: {
                 int l_choice;
                 do {
+                    printf("----------------------------------\n");
+
                     printf("\n--- LIBRARIAN MENU ---\n");
                     printf("1. Add Librarian\n");
                     printf("2. View Librarians\n");
@@ -134,6 +143,8 @@ int main() {
             case 5: {
                 int br_choice;
                 do {
+                    printf("----------------------------------\n");
+
                     printf("\n--- BORROW / RETURN MENU ---\n");
                     printf("1. Borrow Book\n");
                     printf("2. Return Book\n");
